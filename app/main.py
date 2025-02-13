@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-import domain.database as db_router
+import app.drivers.httpcontroller as db_router
 import logging
 import utils
 import asyncio
@@ -14,8 +14,8 @@ logging.basicConfig(filename=utils.create_current_log(), level=logging.INFO)
 async def main():
     config = uvicorn.Config("main:app", host="127.0.0.1", port=8080, reload=True)
     server = uvicorn.Server(config)
-
-    print('Kapellmeister waked up...')
+    logger = logging.getLogger('app')
+    logger.info(f'Kapellmeister waked up...')
     shutdown_event = asyncio.Event()
 
     def handle_signal():
@@ -32,14 +32,14 @@ async def main():
             shutdown_event.wait()
         )
     except asyncio.CancelledError:
-        print("Server shutdown canceled or interrupted. Continuing cleanup...")
+        logger.info("Server shutdown canceled or interrupted. Continuing cleanup...")
     finally:
-        print("Gracefully shutting down...")
+        logger.info("Gracefully shutting down...")
         utils.rename_current_log()
         try:
             await server.shutdown()
         except asyncio.CancelledError:
-            print("Server shutdown was interrupted...")
+            logger.info("Server shutdown was interrupted...")
 
 
 if __name__ == '__main__':

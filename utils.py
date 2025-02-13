@@ -1,8 +1,9 @@
+import logging
 import os
 import sys
 from datetime import datetime, timezone
 
-HOME_LOGS = 'logs'
+HOME_LOGS = 'app\\logs'
 CURRENT_LOG = 'kapellmeister_current.log'
 
 def get_home_dir() -> str:
@@ -23,8 +24,14 @@ def create_current_log() -> str:
         print(f'ERROR: with dict or read to file {e}')
         return f'{e}'
 
+def close_loging_handler():
+    logger = logging.getLogger()
+    for handler in logger.handlers[:]:
+        handler.close()
+        logger.removeHandler(handler)
 
 def rename_current_log() -> bool:
+    close_loging_handler()
     try:
         os.rename(os.path.join(get_home_dir(), HOME_LOGS, CURRENT_LOG),
                   os.path.join(get_home_dir(), HOME_LOGS, 'kapellmeister_'
