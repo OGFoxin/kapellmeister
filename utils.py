@@ -7,7 +7,7 @@ HOME_LOGS = 'app\\logs'
 CURRENT_LOG = 'kapellmeister_current.log'
 
 def get_home_dir() -> str:
-    return os.path.dirname(os.path.abspath(__file__))
+    return os.path.normpath(os.path.dirname(os.path.abspath(__file__)))
 
 # delete, only for local tests
 def get_tmp_db() -> str:
@@ -19,10 +19,9 @@ def create_current_log() -> str:
             os.makedirs(os.path.join(get_home_dir(),HOME_LOGS))
 
         log_path = os.path.join(get_home_dir(), HOME_LOGS, CURRENT_LOG)
-        return log_path
+        return os.path.normpath(log_path)
     except (TypeError, ValueError, IOError) as e:
-        print(f'ERROR: with dict or read to file {e}')
-        return f'{e}'
+        return f'Error: {e}'
 
 def close_loging_handler():
     logger = logging.getLogger()
@@ -33,9 +32,9 @@ def close_loging_handler():
 def rename_current_log() -> bool:
     close_loging_handler()
     try:
-        os.rename(os.path.join(get_home_dir(), HOME_LOGS, CURRENT_LOG),
-                  os.path.join(get_home_dir(), HOME_LOGS, 'kapellmeister_'
-                               + datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S') + '.log')
+        os.rename(os.path.normpath(os.path.join(get_home_dir(), HOME_LOGS, CURRENT_LOG)),
+                  os.path.normpath(os.path.join(get_home_dir(), HOME_LOGS, 'kapellmeister_'
+                               + datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S') + '.log'))
                   )
         return True
     except (TypeError, ValueError, IOError) as e:

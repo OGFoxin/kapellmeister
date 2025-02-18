@@ -3,3 +3,6 @@ requests
 aiosqlite
 sqlalchemy
 greenlet
+pydantic
+pytest
+pytest-asyncio
