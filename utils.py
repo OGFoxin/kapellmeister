@@ -5,6 +5,10 @@ from datetime import datetime, timezone
 
 HOME_LOGS = 'app\\logs'
 CURRENT_LOG = 'kapellmeister_current.log'
+CONFIG_NAME = 'config.yml'
+
+def get_config_path() -> str:
+    return os.path.normpath(os.path.join(get_home_dir(),'app\\config',CONFIG_NAME))
 
 def get_home_dir() -> str:
     return os.path.normpath(os.path.dirname(os.path.abspath(__file__)))

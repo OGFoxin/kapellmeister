@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import AsyncMock,patch
-from app.drivers.ormrepository import ORMTickerRepository
+from app.drivers.orm_repository import ORMTickerRepository
 from sqlalchemy.ext.asyncio import AsyncSession
 
 @pytest.fixture

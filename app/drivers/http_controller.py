@@ -1,4 +1,4 @@
-from app.drivers.ormrepository import ORMTickerRepository
+from app.drivers.orm_repository import ORMTickerRepository
 from app.entities.models import Base,TickerSchema
 from utils import get_tmp_db
 

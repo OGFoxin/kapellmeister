@@ -6,3 +6,4 @@ greenlet
 pydantic
 pytest
 pytest-asyncio
+uvicorn
